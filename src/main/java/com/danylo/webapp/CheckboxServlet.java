@@ -20,45 +20,30 @@ public class CheckboxServlet extends HttpServlet {
         System.out.println("call init method for class CheckBox Servlet");
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         Enumeration<String> names = request.getParameterNames();
         PrintWriter show = response.getWriter();
+        Answers score = new Answers();
+        int sc = 0;
 
 
-        show.print(
-                "<html>\n" +
-                        "<head><title> Parameters</title></head>\n"+
-                        "<body>" +
-                        "<table width=\"70%\" border = \"1\" align = \"center\">"+
-                        "<tr><th>Param name</th><th>Values</th></tr>\n"
-        );
-
-
-        while(names.hasMoreElements()){
+        while (names.hasMoreElements()) {
             String tempName = names.nextElement();
-            show.print("<tr><td>"+tempName+"</td><td>");
-            String[] paramValues = request.getParameterValues(tempName);
-
-            if(paramValues.length == 1){
-                String paramValue = paramValues[0];
-                if (paramValue.length() == 0){
-                    show.print("No values");
-                }else{
-                    show.print(paramValue);
-                }
-            }else{
-                show.print("<ul>");
-                for (int i = 0; i <paramValues.length ; i++) {
-                    show.print("<li>"+paramValues[i]);
-                }
-                show.print("</ul>");
+            System.out.println(tempName);
+            if (score.getA1() == tempName) {
+                sc++;
+            } else if (score.getA2() == tempName) {
+                sc++;
+            } else if (score.getA3() == tempName) {
+                sc++;
             }
         }
 
-        show.print("</tr></table></body></html>");
+        show.print("<b>Your score is " + sc + "out of 3</b>");
     }
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("checkboxJSP.jsp").forward(request, response);
         doPost(request, response);
     }
